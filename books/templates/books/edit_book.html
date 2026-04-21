@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Editar libro</title>
+</head>
+<body>
+
+<h2>Editar libro</h2>
+
+<form method="POST">
+  {% csrf_token %}
+
+  <input type="text" name="title" value="{{ book.title }}"><br><br>
+  <input type="text" name="author" value="{{ book.author }}"><br><br>
+  <input type="text" name="image" value="{{ book.image }}"><br><br>
+
+  <label>Categoría:</label>
+  <select name="category">
+    {% for c in categories %}
+      <option value="{{ c.id }}" {% if book.category.id == c.id %}selected{% endif %}>
+        {{ c.title }}
+      </option>
+    {% endfor %}
+  </select><br><br>
+
+  <button type="submit">Actualizar</button>
+</form>
+
+<a href="{% url 'home' %}">Volver</a>
+
+</body>
+</html>

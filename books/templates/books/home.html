@@ -1,0 +1,72 @@
+{% extends 'books/base.html' %}
+{% block content %}
+
+<section class="text-center container">
+  <div class="row py-lg-1">
+    <div class="col-lg-6 col-md-8 mx-auto">
+      <form action="{% url 'add_book' %}" method="POST">
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <label class="form-label">Titulo de Libro</label>
+          <input type="text" class="form-control" name="title">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Nombre del autor</label>
+          <input type="text" class="form-control" name="author">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Link de la imagen</label>
+          <input type="text" class="form-control" name="image">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Categoría</label>
+          <select name="category" class="form-control">
+            <option value="">Selecciona una categoría</option>
+            {% for c in categories %}
+              <option value="{{ c.id }}">{{ c.title }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Crear</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<div class="album py-5 bg-body-tertiary">
+  <div class="container">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-3">
+
+      {% for book in books %}
+      <div class="col">
+        <div class="card shadow-sm">
+          <img src="{{book.image}}" class="card-img-top" height="225">
+
+          <div class="card-body">
+            <h5>{{book.title}}</h5>
+            <p>{{book.author}}</p>
+
+            <p><strong>{{ book.category.title }}</strong></p>
+
+            <div class="btn-group">
+              <a href="{% url 'detail_book' book.id %}" class="btn btn-sm btn-outline-secondary">Ver</a>
+              <a href="{% url 'edit_book' book.id %}" class="btn btn-sm btn-outline-primary">Editar</a>
+              <a href="{% url 'delete_book' book.id %}" class="btn btn-sm btn-outline-danger">Eliminar</a>
+            </div>
+
+            <small>{{book.created_at|timesince}}</small>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}

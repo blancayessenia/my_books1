@@ -1,0 +1,91 @@
+{% extends 'books/base.html' %}
+
+{% block title %} {{book.title}} | Book {% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <nav aria-label="breadcrumb" class="mb-4">
+                <a href="{% url 'home' %}" class="text-decoration-none text-muted small transition-all hover-link">
+                    <i class="bi bi-arrow-left"></i> Volver a publicaciones
+                </a>
+            </nav>
+
+            <article class="blog-post">
+                <header class="mb-4 text-center"> <div class="mb-3">
+                        <span class="badge rounded-pill bg-primary bg-opacity-10 text-primary px-3 py-2 fs-7 fw-medium">
+                            {{ book.category }}
+                        </span>
+                    </div>
+                    <h1 class="display-4 fw-extrabold mb-3 lh-sm text-dark">{{ book.title }}</h1>
+                    <div class="text-muted d-flex align-items-center gap-3 justify-content-center small">
+                        <span><i class="bi bi-calendar3 me-1"></i> {{ book.created_at|date:"d M, Y" }}</span>
+                        <span>•</span>
+                        <span><i class="bi bi-clock me-1"></i> Hace {{ book.created_at|timesince }}</span>
+                    </div>
+                </header>
+
+                <hr class="my-4 opacity-25">
+
+                {% if book.image %}
+                <div class="d-flex justify-content-center mb-5 mt-4 p-2 bg-white rounded-4 shadow-sm border">
+                    <figure class="figure m-0 text-center">
+                        <img src="{{ book.image }}"
+                             class="figure-img img-fluid rounded-3 m-0"
+                             alt="{{ book.title }}"
+                             style="max-height: 450px; width: auto; object-fit: contain;">
+                        <figcaption class="figure-caption text-center mt-2 small text-muted italic">
+                            {{ book.title }}
+                        </figcaption>
+                    </figure>
+                </div>
+                {% endif %}
+
+                <div class="lead fw-normal text-secondary mb-5 px-4 py-3 bg-light rounded-3 border-start border-4 border-primary quote-container">
+                    {{ book.title }}
+                </div>
+
+                <div class="post-body lh-lg fs-5 mb-5 text-dark">
+                    {{ book.author }}
+                </div>
+            </article>
+
+            <hr class="my-5 opacity-25">
+
+
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Tipografía para lectura profesional */
+    .post-body {
+        color: #1a1a1a;
+        font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    .post-body p {
+        margin-bottom: 1.75rem;
+    }
+
+    /* Evitar estiramiento de imagen y mejorar calidad visual */
+    .img-fluid {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+    }
+
+    /* Utilidades extra */
+    .fs-7 { font-size: 0.85rem; }
+    .fw-extrabold { font-weight: 800; }
+    .transition-all { transition: all 0.3s ease-in-out; }
+    .hover-link:hover { color: var(--bs-primary) !important; transform: translateX(-3px); }
+    .hover-bg-light:hover { background-color: #f8f9fa; }
+    .border-dashed { border-style: dashed !important; }
+
+    .quote-container {
+        font-style: italic;
+    }
+</style>
+{% endblock %}
